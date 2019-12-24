@@ -4,7 +4,7 @@ import {AuthService} from "../auth.service";
 @Component({
   selector: 'el-user-avatar',
   template: `
-    <div *ngIf="currentUser()">
+    <div *ngIf="isLoggedIn()">
       <nz-avatar [nzSize]="48" nz-dropdown [nzDropdownMenu]="menu" [nzText]="currentUser().toUpperCase()"></nz-avatar>
       <nz-dropdown-menu #menu="nzDropdownMenu">
         <ul nz-menu nzSelectable>
@@ -14,7 +14,7 @@ import {AuthService} from "../auth.service";
         </ul>
       </nz-dropdown-menu>
     </div>
-    <button *ngIf="!currentUser()" nz-button nzType="link" (click)="openLoginModal()"
+    <button *ngIf="!isLoggedIn()" nz-button nzType="link" (click)="openLoginModal()"
             style="margin-left: auto;margin-right: 20px; cursor: pointer">Login
     </button>
   `,
@@ -30,6 +30,10 @@ export class UserAvatarComponent {
 
   logout() {
     this.authService.logout();
+  }
+
+  isLoggedIn() {
+    return this.authService.isLoggedIn();
   }
 
   currentUser() {

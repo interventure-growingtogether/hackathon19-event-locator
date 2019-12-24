@@ -36,6 +36,10 @@ export class AuthService implements OnDestroy {
     this.unsubscribe$.complete();
   }
 
+  isLoggedIn() {
+    return this.currentUser && (this.currentUser === 'user' || this.currentUser === 'host');
+  }
+
   openLoginModal() {
     const modal = this.modalService.create({
       nzTitle: 'Please log in',
