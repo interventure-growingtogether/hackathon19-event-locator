@@ -26,6 +26,16 @@ app.get('/review/:spaceId', (req, res) => {
     });
 });
 
+app.get('/user/:userId', (req, res) => {
+    db.get('SELECT * FROM user WHERE id = ?', [req.params.userId], (err, row) => {
+        if (row) {
+            res.send(row);
+        } else {
+            res.status(404).send();
+        }
+    });
+});
+
 app.get('/space/:spaceId', (req, res) => {
     const selectSpaceQuery = `
         select	s.id, s.name, s.coords, s.short_description, s.description, s.amenities, s.price, s.guests, s.photos, s.host_id, avg(r.rating) as rating
