@@ -11,6 +11,11 @@ export class ReservationComponent implements OnInit, OnDestroy {
   public dateStart;
   public dateEnd;
   public dateRange;
+  public spaceId;
+
+  public space;
+  public mapCenter;
+  public markerCoords;
 
   constructor(private appService: AppService, private route: ActivatedRoute) {
     this.route.queryParams.subscribe(params => {
@@ -22,10 +27,15 @@ export class ReservationComponent implements OnInit, OnDestroy {
         this.dateRange = [new Date(this.dateStart), new Date(this.dateEnd)];
       }
     });
+    this.spaceId = this.route.snapshot.paramMap.get("spaceId");
   }
 
   ngOnInit(): void {
-
+    this.appService.getSpace(this.spaceId).subscribe((res) => {
+      this.space = res;
+      this.mapCenter = this.space.coords.split(',').map(l => parseFloat(l)).reverse();
+      this.markerCoords = this.space.coords.split(',').map(l => parseFloat(l)).reverse();
+    });
   }
 
   ngOnDestroy(): void {

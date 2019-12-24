@@ -1,5 +1,15 @@
 <div class="reservation">
 
+  <div class="images" *ngIf="space?.photos">
+
+    <nz-carousel [nzEffect]="'scrollx'" [nzEnableSwipe]="false">
+      <div nz-carousel-content *ngFor="let photo of space.photos">
+        <img [src]="photo">
+      </div>
+    </nz-carousel>
+
+  </div>
+
   <div class="date">
 
     <div>Reservation period::</div>
@@ -13,5 +23,31 @@
     ></nz-range-picker>
 
     <button nz-button nzType="primary" (click)="reserve()" [disabled]="!dateRange?.length">Reserve</button>
+  </div>
+
+  <div class="info" *ngIf="space">
+
+    <div class="top">
+      <div class="name">{{space.name}}</div>
+      <div class="price">{{space.price}}&euro;/hr</div>
+    </div>
+
+    <div class="middle">
+      <div class="description">{{space.description}}</div>
+      <div class="score"><span>★</span>4.2</div>
+    </div>
+
+    <div class="map" *ngIf="mapCenter">
+      <mgl-map
+        [style]="'mapbox://styles/iv-hakaton/ck4ijykdt09sy1cmkyx8eywoy'"
+        [zoom]="[12]"
+        [center]="mapCenter">
+        <mgl-marker [lngLat]="markerCoords">
+          <div class="marker"></div>
+        </mgl-marker>
+      </mgl-map>
+    </div>
+
+    <div class="host"></div>
   </div>
 </div>

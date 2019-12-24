@@ -14,6 +14,10 @@ export class AppService {
     return this.http.get<any[]>(this.url + '/space', {params: {filters: btoa(JSON.stringify(filters))}});
   }
 
+  public getSpace(spaceId): Observable<any> {
+    return this.http.get<any>(this.url + '/space/' + spaceId);
+  }
+
   public getCities(): Observable<any[]> {
     return this.http.get<any[]>(this.url + '/city');
   }

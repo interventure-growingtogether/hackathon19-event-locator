@@ -1,0 +1,99 @@
+.reservation {
+  .images {
+    nz-carousel {
+      height: 500px;
+    }
+
+    [nz-carousel-content] {
+      overflow: hidden;
+    }
+
+    img {
+      width: 100%;
+      height: 700px;
+      margin: 0 auto;
+      object-fit: cover;
+    }
+  }
+
+  .date {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 10px 0;
+    margin: 0 40px;
+    border-bottom: 1px solid #aeaeae;
+  }
+
+  .info {
+    margin: 0 40px;
+    padding: 10px 0;
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .name {
+        font-size: 40px;
+        font-weight: 900;
+      }
+
+      .price {
+        font-weight: 900;
+        font-size: 20px;
+      }
+    }
+
+    .middle {
+      display: flex;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #aeaeae;
+
+      .description {
+        flex: 3;
+        font-size: 16px;
+      }
+
+      .score {
+        text-align: left;
+        font-size: 14px;
+        font-weight: 900;
+        flex: 1;
+        display: flex;
+        justify-content: flex-end;
+
+        span {
+          margin-right: 3px;
+          font-size: 12px;
+          color: #368fff;
+        }
+      }
+    }
+
+    .map {
+      width: 100%;
+      height: 100%;
+      padding: 20px 0;
+      border-bottom: 1px solid #aeaeae;
+
+      mgl-map {
+        width: 100%;
+        height: 200px;
+      }
+      mgl-marker {
+        position: relative;
+      }
+
+      .marker{
+        background: url('../../assets/img/marker-map.png');
+        width: 30px;
+        background-size: contain;
+        height: 50px;
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+    }
+  }
+}
