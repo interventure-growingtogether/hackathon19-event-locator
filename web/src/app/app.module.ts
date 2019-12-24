@@ -16,6 +16,8 @@ import {ReservationComponent} from "./reservation/reservation.component";
 import {LoginComponent} from "./login/login.component";
 import {AuthService} from "./auth.service";
 import {UserAvatarComponent} from "./user-avatar/user-avatar.component";
+import {ListingsComponent} from "./listings/listings.component";
+import {ReservationsComponent} from "./reservations/reservations.component";
 
 registerLocaleData(en);
 
@@ -25,7 +27,9 @@ registerLocaleData(en);
     SearchComponent,
     ReservationComponent,
     LoginComponent,
-    UserAvatarComponent
+    UserAvatarComponent,
+    ListingsComponent,
+    ReservationsComponent
   ],
   imports: [
     BrowserModule,
