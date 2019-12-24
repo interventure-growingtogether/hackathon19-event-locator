@@ -48,7 +48,6 @@
                          nzFormat="yyyy-MM-dd HH:mm"
                          [nzPlaceHolder]="['Start Time', 'End Time']"
                          [(ngModel)]="filters.dateRange"
-                         (nzOnOk)="onDateOk($event)"
                          [nzDisabledDate]="disableDate"
         ></nz-range-picker>
       </div>
@@ -103,7 +102,7 @@
               <img [src]="photo">
             </div>
           </nz-carousel>
-          <div class="box">
+          <div class="box" (click)="reserve(space)">
             <div class="top">
               <div class="name">{{ space.name }}</div>
               <div class="price">{{ space.price }}&euro;/hr</div>

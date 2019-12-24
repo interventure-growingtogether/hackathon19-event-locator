@@ -1,6 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AppService} from "../app.service";
 import {shareReplay} from "rxjs/operators";
+import {Router} from "@angular/router";
 
 @Component({
   templateUrl: './search.component.html',
@@ -28,7 +29,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   public selectedSpace;
   public activeSpace;
 
-  constructor(private appService: AppService) {
+  constructor(private appService: AppService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -71,10 +72,6 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.visible = false;
   }
 
-  onDateOk(result: Date) {
-    console.log(result);
-  }
-
   disableDate(currentDate: Date) {
     return currentDate.getTime() <= new Date().getTime();
   }
@@ -82,6 +79,12 @@ export class SearchComponent implements OnInit, OnDestroy {
   selectSpace(space) {
     this.selectedSpace = space;
     this.activeSpace = space;
+  }
+
+  reserve(space) {
+    const dateRange = this.filters.dateRange.length ? this.filters.dateRange : [];
+    const queryParams = dateRange.length ? {dateRange: dateRange.map(d => d.toISOString())} : null;
+    this.router.navigate(['/reserve', space.id], {queryParams});
   }
 
 }
