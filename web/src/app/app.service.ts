@@ -33,4 +33,8 @@ export class AppService {
   public getReviews(spaceId) {
     return this.http.get(this.url + '/review/' + spaceId);
   }
+
+  public getUserReservations(userId) {
+    return this.http.get(this.url + '/reserve/user/' + userId);
+  }
 }

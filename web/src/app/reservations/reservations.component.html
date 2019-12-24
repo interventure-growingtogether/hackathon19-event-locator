@@ -1,0 +1,29 @@
+<div class="header">
+  <div class="logo" [routerLink]="['/']"></div>
+  <div style="margin-left: auto;margin-right: 20px;">
+    <el-user-avatar></el-user-avatar>
+  </div>
+</div>
+
+<div class="reservations">
+  <div class="reservation" *ngFor="let r of reservations">
+    <div class="slider">
+      <nz-carousel [nzEffect]="'scrollx'" [nzEnableSwipe]="false">
+        <div nz-carousel-content *ngFor="let photo of (r.space$ | async)?.photos">
+          <img [src]="photo" style="object-fit: cover; width: 100%; height: 100%;">
+        </div>
+      </nz-carousel>
+    </div>
+
+    <div class="info">
+      <div class="dates">{{ (r.timestamp_start | date: 'MMM d y h:mm:ss') }} - {{ (r.timestamp_end | date: 'MMM d, y h:mm:ss') }}</div>
+      <div class="title">{{ (r.space$ | async)?.name }}<span> in {{ (r.space$ | async)?.city_name }}</span></div>
+      <div class="desc">{{ (r.space$ | async)?.short_description }}</div>
+    </div>
+
+    <div class="meta">
+      <div class="score" *ngIf="(r.space$ | async)?.rating !== null"><span>★</span>{{ (r.space$ | async).rating }}</div>
+      <div class="total">Total: <span>{{ (r.price) }} &euro;</span></div>
+    </div>
+  </div>
+</div>
