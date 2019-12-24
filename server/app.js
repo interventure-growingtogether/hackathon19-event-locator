@@ -54,32 +54,42 @@ app.get('/space', (req, res) => {
     if (req.query.filters) {
         const filters = JSON.parse(Buffer.from(req.query.filters, 'base64').toString());
         let filterSpacesQuery = `
-            select	s.id, s.name, s.coords, s.short_description, s.description, s.amenities, s.price, s.guests, s.photos, s.host_id, avg(r.rating) as rating
-            from 	space s left join review r on r.space_id = s.id`;
+            select	s.id, s.name, s.coords, s.short_description, s.description, s.amenities, s.price, s.guests, s.photos, s.host_id, avg(rv.rating) as rating
+            from 	space s 
+                    left join review rv on rv.space_id = s.id
+                    left join reservation rs on rs.space_id = s.id `;
         const keys = [];
         const values = [];
         Object.keys(filters).forEach((key) => {
 
             ['wifi', 'everyChairHasAComputer', 'toilet', 'soundSystem', 'heatingAc', 'projector'].forEach(k => {
                 if (key === k && filters[key]) {
-                    keys.push(`json_extract(space.amenities, "$.${key}") = ?`);
+                    keys.push(`json_extract(s.amenities, "$.${key}") = ?`);
                     values.push(filters[key]);
                 }
             });
 
             if (key === 'city_id') {
-                keys.push('city_id = ?');
+                keys.push('s.city_id = ?');
                 values.push(filters[key]);
             }
 
             if (key === 'priceRange') {
-                keys.push('price BETWEEN ? AND ?');
+                keys.push('s.price BETWEEN ? AND ?');
                 values.push(filters[key][0]);
                 values.push(filters[key][1]);
             }
 
             if (key === 'guestsRange') {
-                keys.push('guests BETWEEN ? AND ?');
+                keys.push('s.guests BETWEEN ? AND ?');
+                values.push(filters[key][0]);
+                values.push(filters[key][1]);
+            }
+
+            if (key === 'dateRange') {
+                keys.push(`rs.timestamp_start not between ? and ? and rs.timestamp_end not between ? and ? or rs.timestamp_start is null and rs.timestamp_end is null`);
+                values.push(filters[key][0]);
+                values.push(filters[key][1]);
                 values.push(filters[key][0]);
                 values.push(filters[key][1]);
             }
@@ -89,7 +99,7 @@ app.get('/space', (req, res) => {
         }
 
         if (Object.keys(filters).includes('scoreRange')) {
-            filterSpacesQuery += ' having (rating between ? and ? or rating is null)';
+            filterSpacesQuery += ' having (rv.rating between ? and ? or rv.rating is null)';
             values.push(filters['scoreRange'][0]);
             values.push(filters['scoreRange'][1]);
         }
