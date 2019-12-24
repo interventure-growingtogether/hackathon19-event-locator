@@ -22,6 +22,7 @@
                      [nzDisabledDate]="disableDate"
     ></nz-range-picker>
 
+    <div class="total" *ngIf="dateRange?.length">Total: <span style="font-weight: 900">{{getTotalPrice()}}</span></div>
     <button nz-button nzType="primary" (click)="reserve()" [disabled]="!dateRange?.length">Reserve</button>
   </div>
 
@@ -33,7 +34,59 @@
     </div>
 
     <div class="middle">
-      <div class="description">{{space.description}}</div>
+      <div class="description">
+        {{space.description}}
+
+        <div class="amenities" *ngIf="space.amenities">
+
+          <div class="title">Amenities</div>
+
+          <div class="amenity" *ngIf="space.amenities?.wifi">
+            <div class="icon">
+              <i nz-icon nzType="wifi" nzTheme="outline"></i>
+            </div>
+            <div class="name">WiFi</div>
+          </div>
+
+          <div class="amenity" *ngIf="space.amenities?.everyChairHasAComputer">
+            <div class="icon">
+              <i nz-icon nzType="laptop" nzTheme="outline"></i>
+            </div>
+            <div class="name">Every chair has a computer</div>
+          </div>
+
+          <div class="amenity" *ngIf="space.amenities?.heatingAc">
+            <div class="icon">
+              <i nz-icon nzType="dashboard" nzTheme="outline"></i>
+            </div>
+            <div class="name">Heating / Air Conditioning</div>
+          </div>
+
+          <div class="amenity" *ngIf="space.amenities?.projector">
+            <div class="icon">
+              <i nz-icon nzType="eye" nzTheme="outline"></i>
+            </div>
+            <div class="name">Projector</div>
+          </div>
+
+          <div class="amenity" *ngIf="space.amenities?.soundSystem">
+            <div class="icon">
+              <i nz-icon nzType="sound" nzTheme="outline"></i>
+            </div>
+            <div class="name">Sound system</div>
+          </div>
+
+          <div class="amenity" *ngIf="space.amenities?.toilet">
+            <div class="icon">
+              <i nz-icon nzType="home" nzTheme="outline"></i>
+            </div>
+            <div class="name">Toilet</div>
+          </div>
+
+        </div>
+
+      </div>
+
       <div class="score"><span>★</span>4.2</div>
     </div>
 

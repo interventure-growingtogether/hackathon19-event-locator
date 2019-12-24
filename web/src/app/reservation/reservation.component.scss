@@ -54,6 +54,26 @@
       .description {
         flex: 3;
         font-size: 16px;
+
+        .amenities {
+          margin-top: 20px;
+          border-top: 1px solid #aeaeae;
+          padding: 20px 0;
+
+          .title {
+            font-size: 18px;
+            font-weight: 900;
+          }
+
+          .amenity {
+            display: flex;
+            padding-left: 20px;
+
+            .name {
+              padding-left: 10px;
+            }
+          }
+        }
       }
 
       .score {
@@ -82,11 +102,12 @@
         width: 100%;
         height: 200px;
       }
+
       mgl-marker {
         position: relative;
       }
 
-      .marker{
+      .marker {
         background: url('../../assets/img/marker-map.png');
         width: 30px;
         background-size: contain;

@@ -55,4 +55,9 @@ export class ReservationComponent implements OnInit, OnDestroy {
     console.log(result);
   }
 
+
+  getTotalPrice() {
+    const hours = Math.abs(this.dateRange[0] - this.dateRange[1]) / 36e5;
+    return Math.round((hours * this.space.price) * 100) / 100 + '€';
+  }
 }
