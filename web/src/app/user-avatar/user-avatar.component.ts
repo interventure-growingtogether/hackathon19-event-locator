@@ -8,8 +8,8 @@ import {AuthService} from "../auth.service";
       <nz-avatar [nzSize]="48" nz-dropdown [nzDropdownMenu]="menu" [nzText]="currentUser().toUpperCase()"></nz-avatar>
       <nz-dropdown-menu #menu="nzDropdownMenu">
         <ul nz-menu nzSelectable>
-          <li nz-menu-item *ngIf="currentUser() === 'user'">My reservations</li>
-          <li nz-menu-item *ngIf="currentUser() === 'host'">My listings</li>
+          <li nz-menu-item *ngIf="currentUser() === 'user'" [routerLink]="['/reservations']">My reservations</li>
+          <li nz-menu-item *ngIf="currentUser() === 'host'" [routerLink]="['/listings']">My listings</li>
           <li nz-menu-item (click)="logout()">Logout</li>
         </ul>
       </nz-dropdown-menu>
