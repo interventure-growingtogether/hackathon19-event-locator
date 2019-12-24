@@ -1,4 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import {AuthService} from "../auth.service";
+import {Router} from "@angular/router";
 
 @Component({
   templateUrl: './reservations.component.html',
@@ -6,8 +8,14 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 })
 export class ReservationsComponent implements OnInit, OnDestroy {
 
-  ngOnInit(): void {
+  constructor(private authService: AuthService, private router: Router) {
+  }
 
+
+  ngOnInit(): void {
+    if (!this.authService.isLoggedIn()) {
+      this.router.navigate(['/']);
+    }
   }
 
   ngOnDestroy(): void {
