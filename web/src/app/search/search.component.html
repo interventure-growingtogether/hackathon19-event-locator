@@ -93,12 +93,15 @@
       [center]="mapCenter">
       <mgl-marker *ngFor="let space of spaces" [lngLat]="space.coords">
         <div class="marker" [ngClass]="{'active': space.id === activeSpace?.id}" *ngIf="space.id !== selectedSpace?.id" (click)="selectSpace(space)" >{{space.price}}&euro;</div>
+      </mgl-marker>
+
+      <mgl-marker *ngFor="let space of spaces" [lngLat]="space.coords">
         <div class="preview" *ngIf="space.id === selectedSpace?.id">
           <div class="close" (click)="selectedSpace = null">&times;</div>
           <nz-carousel [nzEffect]="'scrollx'" [nzEnableSwipe]="false">
             <div nz-carousel-content *ngFor="let photo of space.photos">
-            <img [src]="photo">
-          </div>
+              <img [src]="photo">
+            </div>
           </nz-carousel>
           <div class="box">
             <div class="top">
