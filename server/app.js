@@ -99,7 +99,7 @@ app.get('/space', (req, res) => {
         }
 
         if (Object.keys(filters).includes('scoreRange')) {
-            filterSpacesQuery += ' having (rv.rating between ? and ? or rv.rating is null)';
+            filterSpacesQuery += ' having (rating between ? and ? or rating is null)';
             values.push(filters['scoreRange'][0]);
             values.push(filters['scoreRange'][1]);
         }
