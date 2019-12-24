@@ -116,5 +116,17 @@
     </div>
 
     <div class="host"></div>
+    <div class="reviews" *ngIf="reviews?.length">
+      <div class="title" style="margin-bottom: 20px; margin-top: 20px;">Reviews</div>
+      <div class="review" *ngFor="let review of reviews">
+        <nz-card style="width:100%;" [nzBordered]="false" [nzTitle]="review.first_name + ' ' + review.last_name">
+          <div style="margin-bottom: 20px;">
+            <img style="width: 60px;height: 60px;border-radius: 50%;margin-right: 20px;object-fit: cover;" [src]="review.photo_url" alt="">
+            <nz-rate [ngModel]="review.rating" nzAllowHalf nzDisabled></nz-rate>
+          </div>
+          <p>{{ review.comment }}</p>
+        </nz-card>
+      </div>
+    </div>
   </div>
 </div>

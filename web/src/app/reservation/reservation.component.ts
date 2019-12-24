@@ -18,6 +18,7 @@ export class ReservationComponent implements OnInit, OnDestroy {
   public space;
   public mapCenter;
   public markerCoords;
+  public reviews;
 
   public host$;
 
@@ -45,6 +46,7 @@ export class ReservationComponent implements OnInit, OnDestroy {
         map((host) => ({...host, birth: new Date(host.dob)}))
       );
     });
+    this.appService.getReviews(this.spaceId).subscribe(res => this.reviews = res);
   }
 
   ngOnDestroy(): void {
