@@ -1,6 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AppService} from "../app.service";
 import {ActivatedRoute} from "@angular/router";
+import {AuthService} from "../auth.service";
 
 @Component({
   templateUrl: './reservation.component.html',
@@ -17,7 +18,7 @@ export class ReservationComponent implements OnInit, OnDestroy {
   public mapCenter;
   public markerCoords;
 
-  constructor(private appService: AppService, private route: ActivatedRoute) {
+  constructor(private appService: AppService, private route: ActivatedRoute, private authService: AuthService) {
     this.route.queryParams.subscribe(params => {
       if (params['dateRange'] && params['dateRange'].length) {
         this.dateStart = params['dateRange'][0];
@@ -42,9 +43,20 @@ export class ReservationComponent implements OnInit, OnDestroy {
   }
 
   reserve() {
-    this.appService.reserve().subscribe((res) => {
-      console.log('rizrv', res);
-    })
+    if (this.authService.isLoggedIn()) {
+      this.appService.reserve().subscribe((res) => {
+        console.log('rizrv', res);
+      });
+    } else {
+      this.authService.openLoginModal().subscribe(res => {
+        if (res) {
+          this.appService.reserve().subscribe((res) => {
+            console.log('rizrv', res);
+          });
+        }
+      })
+    }
+
   }
 
   disableDate(currentDate: Date) {
