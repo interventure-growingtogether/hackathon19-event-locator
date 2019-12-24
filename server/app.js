@@ -21,9 +21,13 @@ app.get('/city', (req, res) => {
 });
 
 app.get('/space/:spaceId', (req, res) => {
-    db.get('SELECT * FROM space WHERE space.id = ?', [req.params.spaceId], (err, row) => {
+    const selectSpaceQuery = `
+        select	s.id, s.name, s.coords, s.short_description, s.description, s.amenities, s.price, s.guests, s.photos, s.host_id, avg(r.rating) as rating
+        from 	space s left join review r on r.space_id = s.id
+        where 	s.id = ?`;
+    db.get(selectSpaceQuery, [req.params.spaceId], (err, row) => {
         if (row) {
-            res.send(({...row, amenities: JSON.parse(row.amenities), photos: JSON.parse(row.photos)}));
+            res.send(({ ...row, amenities: JSON.parse(row.amenities), photos: JSON.parse(row.photos) }));
         } else {
             res.status(404).send();
         }
@@ -33,7 +37,9 @@ app.get('/space/:spaceId', (req, res) => {
 app.get('/space', (req, res) => {
     if (req.query.filters) {
         const filters = JSON.parse(Buffer.from(req.query.filters, 'base64').toString());
-        let query = 'SELECT * FROM space';
+        let filterSpacesQuery = `
+            select	s.id, s.name, s.coords, s.short_description, s.description, s.amenities, s.price, s.guests, s.photos, s.host_id, avg(r.rating) as rating
+            from 	space s left join review r on r.space_id = s.id`;
         const keys = [];
         const values = [];
         Object.keys(filters).forEach((key) => {
@@ -63,9 +69,9 @@ app.get('/space', (req, res) => {
             }
         });
         if (keys.length) {
-            query += ' WHERE ' + keys.join(' AND ');
+            filterSpacesQuery += ' where ' + keys.join(' and ');
         }
-        db.all(query, values, (err, rows) => {
+        db.all(filterSpacesQuery, values, (err, rows) => {
             res.send(rows.map(r => ({
                 ...r,
                 amenities: JSON.parse(r.amenities),
@@ -73,7 +79,7 @@ app.get('/space', (req, res) => {
             })));
         });
     } else {
-        db.all("SELECT * FROM space", (err, rows) => {
+        db.all(filterSpacesQuery, (err, rows) => {
             const parsedRows = rows.map(r => ({
                 ...r,
                 amenities: JSON.parse(r.amenities),
