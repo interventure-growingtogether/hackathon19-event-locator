@@ -75,7 +75,7 @@
 
 
   <div class="header">
-    <div class="logo"></div>
+    <div class="logo" [routerLink]="['/']"></div>
     <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select city" [(ngModel)]="selectedCity" nzSize="large"
                [ngModelOptions]="{standalone: true}"
                (ngModelChange)="search()">

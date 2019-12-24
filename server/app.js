@@ -38,8 +38,8 @@ app.get('/user/:userId', (req, res) => {
 
 app.get('/space/:spaceId', (req, res) => {
     const selectSpaceQuery = `
-        select	s.id, s.name, s.coords, s.short_description, s.description, s.amenities, s.price, s.guests, s.photos, s.host_id, avg(r.rating) as rating
-        from 	space s left join review r on r.space_id = s.id
+        select	s.id, s.name, s.coords, s.short_description, s.description, s.amenities, s.price, s.guests, s.photos, s.host_id, avg(r.rating) as rating, c.name as city_name
+        from 	space s left join review r on r.space_id = s.id left join city c on c.id = s.city_id
         where 	s.id = ?`;
     db.get(selectSpaceQuery, [req.params.spaceId], (err, row) => {
         if (row) {
@@ -51,13 +51,14 @@ app.get('/space/:spaceId', (req, res) => {
 });
 
 app.get('/space', (req, res) => {
-    if (req.query.filters) {
-        const filters = JSON.parse(Buffer.from(req.query.filters, 'base64').toString());
-        let filterSpacesQuery = `
-            select	s.id, s.name, s.coords, s.short_description, s.description, s.amenities, s.price, s.guests, s.photos, s.host_id, avg(rv.rating) as rating
+    let filterSpacesQuery = `
+            select	s.id, s.name, s.coords, s.short_description, s.description, s.amenities, s.price, s.guests, s.photos, s.host_id, avg(rv.rating) as rating, c.name as city_name
             from 	space s 
                     left join review rv on rv.space_id = s.id
+                    left join city c on c.id = s.city_id
                     left join reservation rs on rs.space_id = s.id `;
+    if (req.query.filters) {
+        const filters = JSON.parse(Buffer.from(req.query.filters, 'base64').toString());
         const keys = [];
         const values = [];
         Object.keys(filters).forEach((key) => {
