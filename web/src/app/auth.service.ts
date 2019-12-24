@@ -9,7 +9,7 @@ export class AuthService implements OnDestroy {
   private unsubscribe$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private modalService: NzModalService) {
-    this.currentUser = localStorage.getItem('usr');
+    this.currentUser = localStorage.getItem('usr') || null;
   }
 
   login(username: string, password: string): boolean {
@@ -41,6 +41,7 @@ export class AuthService implements OnDestroy {
   }
 
   openLoginModal() {
+    const result = new Subject();
     const modal = this.modalService.create({
       nzTitle: 'Please log in',
       nzContent: LoginComponent,
@@ -49,11 +50,20 @@ export class AuthService implements OnDestroy {
         componentInstance.hasError = false;
         if (this.login(componentInstance.username, componentInstance.password)) {
           modal.destroy();
+          result.next(true);
+          result.complete();
         } else {
           componentInstance.hasError = true;
+          result.next(false);
+          result.complete();
           return false;
         }
+      },
+      nzOnCancel: () => {
+        result.next(false);
+        result.complete();
       }
     });
+    return result;
   }
 }
