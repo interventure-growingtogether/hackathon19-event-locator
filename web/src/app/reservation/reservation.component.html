@@ -87,7 +87,7 @@
 
       </div>
 
-      <div class="score"><span>★</span>4.2</div>
+      <div class="score" *ngIf="space.rating !== null"><span>★</span>{{ space.rating }}</div>
     </div>
 
     <div class="map" *ngIf="mapCenter">

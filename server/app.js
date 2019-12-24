@@ -69,7 +69,7 @@ app.get('/space', (req, res) => {
             }
         });
         if (keys.length) {
-            filterSpacesQuery += ' where ' + keys.join(' and ');
+            filterSpacesQuery += ' where ' + keys.join(' and ') + ' group by s.id';
         }
         db.all(filterSpacesQuery, values, (err, rows) => {
             res.send(rows.map(r => ({
