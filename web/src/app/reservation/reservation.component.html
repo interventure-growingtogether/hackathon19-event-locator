@@ -1,5 +1,17 @@
 <div class="reservation">
 
+  <div class="date">
 
-  <button nz-button nzType="primary" (click)="reserve()">Reserve</button>
+    <div>Reservation period::</div>
+    <nz-range-picker style="margin-left:20px;"
+                     [nzShowTime]="{ nzFormat: 'HH:mm' }"
+                     nzFormat="yyyy-MM-dd HH:mm"
+                     [nzPlaceHolder]="['Start Time', 'End Time']"
+                     [(ngModel)]="dateRange"
+                     (nzOnOk)="onDateOk($event)"
+                     [nzDisabledDate]="disableDate"
+    ></nz-range-picker>
+
+    <button nz-button nzType="primary" (click)="reserve()" [disabled]="!dateRange?.length">Reserve</button>
+  </div>
 </div>
