@@ -17,6 +17,7 @@ export class ReservationComponent implements OnInit, OnDestroy {
   public space;
   public mapCenter;
   public markerCoords;
+  public reviews;
 
   constructor(private appService: AppService, private route: ActivatedRoute, private authService: AuthService) {
     this.route.queryParams.subscribe(params => {
@@ -37,6 +38,7 @@ export class ReservationComponent implements OnInit, OnDestroy {
       this.mapCenter = this.space.coords.split(',').map(l => parseFloat(l)).reverse();
       this.markerCoords = this.space.coords.split(',').map(l => parseFloat(l)).reverse();
     });
+    this.appService.getReviews(this.spaceId).subscribe(res => this.reviews = res);
   }
 
   ngOnDestroy(): void {

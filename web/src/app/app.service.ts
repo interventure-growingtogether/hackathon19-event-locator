@@ -25,4 +25,8 @@ export class AppService {
   public reserve() {
     return this.http.post(this.url + '/reserve', null);
   }
+
+  public getReviews(spaceId) {
+    return this.http.get(this.url + '/review/' + spaceId);
+  }
 }
