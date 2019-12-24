@@ -12,13 +12,15 @@ import {registerLocaleData} from '@angular/common';
 import en from '@angular/common/locales/en';
 import {SearchComponent} from "./search/search.component";
 import {AppService} from "./app.service";
+import {ReservationComponent} from "./reservation/reservation.component";
 
 registerLocaleData(en);
 
 @NgModule({
   declarations: [
     AppComponent,
-    SearchComponent
+    SearchComponent,
+    ReservationComponent
   ],
   imports: [
     BrowserModule,
