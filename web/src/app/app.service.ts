@@ -17,4 +17,8 @@ export class AppService {
   public getCities(): Observable<any[]> {
     return this.http.get<any[]>(this.url + '/city');
   }
+
+  public reserve() {
+    return this.http.post(this.url + '/reserve', null);
+  }
 }

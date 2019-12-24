@@ -72,6 +72,22 @@ app.get('/space', (req, res) => {
     }
 });
 
+app.post('/reserve', (req, res) => {
+
+    const timeStart = '2020-01-01T09:00:00Z';
+    const timeEnd = '2020-01-02T09:00:00Z';
+    const price = 20;
+    const userId = 1;
+    const spaceId = 1;
+    db.run(`INSERT INTO reservation(timestamp_start,timestamp_end, price, user_id, space_id) VALUES(?,?,?,?,?)`,
+        [timeStart, timeEnd, price, userId, spaceId], function (err) {
+            if (err) {
+                return console.log(err.message);
+            }
+            res.send(this.lastID);
+        });
+});
+
 app.listen(port, function () {
     console.log('app listening on port: ' + port);
 });
