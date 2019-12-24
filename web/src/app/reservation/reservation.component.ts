@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AppService} from "../app.service";
 import {ActivatedRoute} from "@angular/router";
 import {AuthService} from "../auth.service";
+import {map, shareReplay} from "rxjs/operators";
 
 @Component({
   templateUrl: './reservation.component.html',
@@ -17,6 +18,8 @@ export class ReservationComponent implements OnInit, OnDestroy {
   public space;
   public mapCenter;
   public markerCoords;
+
+  public host$;
 
   constructor(private appService: AppService, private route: ActivatedRoute, private authService: AuthService) {
     this.route.queryParams.subscribe(params => {
@@ -36,6 +39,11 @@ export class ReservationComponent implements OnInit, OnDestroy {
       this.space = res;
       this.mapCenter = this.space.coords.split(',').map(l => parseFloat(l)).reverse();
       this.markerCoords = this.space.coords.split(',').map(l => parseFloat(l)).reverse();
+
+      this.host$ = this.appService.getUser(this.space.host_id).pipe(
+        shareReplay(),
+        map((host) => ({...host, birth: new Date(host.dob)}))
+      );
     });
   }
 

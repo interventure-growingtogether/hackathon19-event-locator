@@ -63,6 +63,19 @@
           .title {
             font-size: 18px;
             font-weight: 900;
+            margin-bottom: 20px;
+          }
+
+          .details {
+            display: flex;
+            align-items: center;
+
+            img {
+              width: 130px;
+              border-radius: 50%;
+              height: 130px;
+              object-fit: cover;
+            }
           }
 
           .amenity {
