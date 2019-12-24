@@ -42,6 +42,7 @@ export class ReservationsComponent implements OnInit, OnDestroy {
       nzOnOk: () => {
         this.appService.cancelReservation(r.id).subscribe(() => {
           this.message.create('success', `Reservation successfully canceled!`);
+          r.canceled = true;
         });
       }
     });
