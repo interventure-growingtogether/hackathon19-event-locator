@@ -3,6 +3,7 @@ import {AppService} from "../app.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AuthService} from "../auth.service";
 import {map, shareReplay} from "rxjs/operators";
+import {NzMessageService, NzModalService} from "ng-zorro-antd";
 
 @Component({
   templateUrl: './reservation.component.html',
@@ -27,6 +28,8 @@ export class ReservationComponent implements OnInit, OnDestroy {
   constructor(private appService: AppService,
               private route: ActivatedRoute,
               private authService: AuthService,
+              private modalService: NzModalService,
+              private message: NzMessageService,
               private router: Router) {
     this.route.queryParams.subscribe(params => {
       if (params['dateRange'] && params['dateRange'].length) {
@@ -61,17 +64,35 @@ export class ReservationComponent implements OnInit, OnDestroy {
 
   reserve() {
     if (this.authService.isLoggedIn()) {
-      this.appService.reserve(this.dateRange[0].toISOString(), this.dateRange[1].toISOString(), this.getTotalPrice(), 1, this.spaceId)
-        .subscribe((res) => {
-          this.router.navigate(['/reservations']);
-        });
+      this.modalService.warning({
+        nzTitle: 'Confirm reservation',
+        nzContent: 'Are you sure you want to reserve this space?.',
+        nzOkText: 'Yes. Reserve it!',
+        nzCancelText: 'No',
+        nzOnOk: () => {
+          this.appService.reserve(this.dateRange[0].toISOString(), this.dateRange[1].toISOString(), this.getTotalPrice(), 1, this.spaceId)
+            .subscribe((res) => {
+              this.message.create('success', `Space successfully reserved!`);
+              this.router.navigate(['/reservations']);
+            });
+        }
+      });
     } else {
       this.authService.openLoginModal().subscribe(res => {
         if (res) {
-          this.appService.reserve(this.dateRange[0].toISOString(), this.dateRange[1].toISOString(), this.getTotalPrice(), 1, this.spaceId)
-            .subscribe((res) => {
-              this.router.navigate(['/reservations']);
-            });
+          this.modalService.warning({
+            nzTitle: 'Confirm reservation',
+            nzContent: 'Are you sure you want to reserve this space?.',
+            nzOkText: 'Yes. Reserve it!',
+            nzCancelText: 'No',
+            nzOnOk: () => {
+              this.appService.reserve(this.dateRange[0].toISOString(), this.dateRange[1].toISOString(), this.getTotalPrice(), 1, this.spaceId)
+                .subscribe((res) => {
+                  this.message.create('success', `Space successfully reserved!`);
+                  this.router.navigate(['/reservations']);
+                });
+            }
+          });
         }
       })
     }
