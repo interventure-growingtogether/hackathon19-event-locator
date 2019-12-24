@@ -139,6 +139,22 @@ app.post('/reserve', (req, res) => {
         });
 });
 
+app.get('/reserve/space/:spaceId', (req, res) => {
+    db.all(`select	rs.id, rs.timestamp_start, rs.timestamp_end, rs.price, rs.space_id, rs.user_id
+            from 	reservation rs
+            where	rs.space_id = ?`, [req.params.spaceId], (err, rows) => {
+        res.send(rows);
+    });
+});
+
+app.get('/reserve/user/:userId', (req, res) => {
+    db.all(`select	rs.id, rs.timestamp_start, rs.timestamp_end, rs.price, rs.space_id, rs.user_id
+            from 	reservation rs
+            where	rs.user_id = ?`, [req.params.userId], (err, rows) => {
+        res.send(rows);
+    });
+});
+
 app.listen(port, function () {
     console.log('app listening on port: ' + port);
 });
