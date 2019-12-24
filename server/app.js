@@ -20,6 +20,12 @@ app.get('/city', (req, res) => {
     });
 });
 
+app.get('/review/:spaceId', (req, res) => {
+    db.all('SELECT * FROM review left join user on review.user_id = user.id WHERE review.space_id = ?', [req.params.spaceId], (err, rows) => {
+        res.send(rows);
+    });
+});
+
 app.get('/space/:spaceId', (req, res) => {
     const selectSpaceQuery = `
         select	s.id, s.name, s.coords, s.short_description, s.description, s.amenities, s.price, s.guests, s.photos, s.host_id, avg(r.rating) as rating
@@ -27,7 +33,7 @@ app.get('/space/:spaceId', (req, res) => {
         where 	s.id = ?`;
     db.get(selectSpaceQuery, [req.params.spaceId], (err, row) => {
         if (row) {
-            res.send(({ ...row, amenities: JSON.parse(row.amenities), photos: JSON.parse(row.photos) }));
+            res.send(({...row, amenities: JSON.parse(row.amenities), photos: JSON.parse(row.photos)}));
         } else {
             res.status(404).send();
         }
