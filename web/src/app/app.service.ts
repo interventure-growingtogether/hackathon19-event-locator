@@ -26,12 +26,18 @@ export class AppService {
     return this.http.get<any[]>(this.url + '/city');
   }
 
-  public reserve() {
-    return this.http.post(this.url + '/reserve', null);
+  public reserve(dateStart, dateEnd, price, userId, spaceId) {
+    console.log(dateStart, dateEnd, price, userId, spaceId);
+    return this.http.post(this.url + '/reserve', {dateStart, dateEnd, price, userId, spaceId});
   }
 
   public getReviews(spaceId) {
     return this.http.get(this.url + '/review/' + spaceId);
+  }
+
+
+  public getReservationsForSpace(spaceId) {
+    return this.http.get(this.url + '/reserve/space/' + spaceId);
   }
 
   public getUserReservations(userId) {

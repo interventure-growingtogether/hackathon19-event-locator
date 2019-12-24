@@ -10,7 +10,7 @@
 
   </div>
 
-  <div class="date">
+  <div class="date" *ngIf="reservationsForSpace">
 
     <div>Reservation period::</div>
     <nz-range-picker style="margin-left:20px;"
@@ -19,10 +19,10 @@
                      [nzPlaceHolder]="['Start Time', 'End Time']"
                      [(ngModel)]="dateRange"
                      (nzOnOk)="onDateOk($event)"
-                     [nzDisabledDate]="disableDate"
+                     [nzDisabledTime]="method"
     ></nz-range-picker>
 
-    <div class="total" *ngIf="dateRange?.length">Total: <span style="font-weight: 900">{{getTotalPrice()}}</span></div>
+    <div class="total" *ngIf="dateRange?.length">Total: <span style="font-weight: 900">{{getTotalPrice()}}€</span></div>
     <button nz-button nzType="primary" (click)="reserve()" [disabled]="!dateRange?.length">Reserve</button>
   </div>
 
@@ -121,7 +121,8 @@
       <div class="review" *ngFor="let review of reviews">
         <nz-card style="width:100%;" [nzBordered]="false" [nzTitle]="review.first_name + ' ' + review.last_name">
           <div style="margin-bottom: 20px;">
-            <img style="width: 60px;height: 60px;border-radius: 50%;margin-right: 20px;object-fit: cover;" [src]="review.photo_url" alt="">
+            <img style="width: 60px;height: 60px;border-radius: 50%;margin-right: 20px;object-fit: cover;"
+                 [src]="review.photo_url" alt="">
             <nz-rate [ngModel]="review.rating" nzAllowHalf nzDisabled></nz-rate>
           </div>
           <p>{{ review.comment }}</p>
