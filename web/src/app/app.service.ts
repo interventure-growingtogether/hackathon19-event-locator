@@ -37,4 +37,8 @@ export class AppService {
   public getUserReservations(userId) {
     return this.http.get(this.url + '/reserve/user/' + userId);
   }
+
+  public cancelReservation(reservationId) {
+    return this.http.delete(this.url + '/reserve/' + reservationId);
+  }
 }
