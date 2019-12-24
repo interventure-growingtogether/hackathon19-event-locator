@@ -6,7 +6,7 @@ import {ReservationComponent} from "./reservation/reservation.component";
 
 const routes: Routes = [
   {path: 'search', component: SearchComponent},
-  {path: 'reserve', component: ReservationComponent},
+  {path: 'reserve/:spaceId', component: ReservationComponent},
   {
     path: '',
     redirectTo: '/search',

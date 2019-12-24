@@ -1,5 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AppService} from "../app.service";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   templateUrl: './reservation.component.html',
@@ -7,7 +8,14 @@ import {AppService} from "../app.service";
 })
 export class ReservationComponent implements OnInit, OnDestroy {
 
-  constructor(private appService: AppService) {
+  public dateStart;
+  public dateEnd;
+
+  constructor(private appService: AppService, private route: ActivatedRoute) {
+    this.route.queryParams.subscribe(params => {
+      this.dateStart = params['dateStart'];
+      this.dateEnd = params['dateEnd'];
+    });
   }
 
   ngOnInit(): void {
