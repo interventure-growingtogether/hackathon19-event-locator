@@ -43,7 +43,7 @@ app.get('/space/:spaceId', (req, res) => {
         where 	s.id = ?`;
     db.get(selectSpaceQuery, [req.params.spaceId], (err, row) => {
         if (row) {
-            res.send(({...row, amenities: JSON.parse(row.amenities), photos: JSON.parse(row.photos)}));
+            res.send(({ ...row, amenities: JSON.parse(row.amenities), photos: JSON.parse(row.photos) }));
         } else {
             res.status(404).send();
         }
@@ -86,7 +86,7 @@ app.get('/space', (req, res) => {
                 values.push(filters[key][1]);
             }
 
-            if (key === 'dateRange') {
+            if (key === 'dateRange' && filters[key].length == 2) {
                 keys.push(`rs.timestamp_start not between ? and ? and rs.timestamp_end not between ? and ? or rs.timestamp_start is null and rs.timestamp_end is null`);
                 values.push(filters[key][0]);
                 values.push(filters[key][1]);
