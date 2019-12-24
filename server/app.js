@@ -71,6 +71,13 @@ app.get('/space', (req, res) => {
         if (keys.length) {
             filterSpacesQuery += ' where ' + keys.join(' and ') + ' group by s.id';
         }
+
+        if (Object.keys(filters).includes('scoreRange')) {
+            filterSpacesQuery += ' having (rating between ? and ? or rating is null)';
+            values.push(filters['scoreRange'][0]);
+            values.push(filters['scoreRange'][1]);
+        }
+
         db.all(filterSpacesQuery, values, (err, rows) => {
             res.send(rows.map(r => ({
                 ...r,
