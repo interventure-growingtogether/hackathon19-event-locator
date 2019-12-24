@@ -18,6 +18,10 @@ export class AppService {
     return this.http.get<any>(this.url + '/space/' + spaceId);
   }
 
+  public getUser(userId): Observable<any> {
+    return this.http.get<any>(this.url + '/user/' + userId);
+  }
+
   public getCities(): Observable<any[]> {
     return this.http.get<any[]>(this.url + '/city');
   }

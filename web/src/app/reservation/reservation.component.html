@@ -85,6 +85,20 @@
 
         </div>
 
+        <div class="amenities" *ngIf="(host$ | async) as host">
+          <div class="title">Host</div>
+          <div class="details">
+            <div class="picture">
+              <img [src]="host.photo_url">
+            </div>
+            <div class="info">
+              <span
+                style="font-weight: 900">Name: </span>{{ host.first_name | titlecase}} {{ host.last_name | titlecase}}
+              <br>
+              <span style="font-weight: 900">Date of birth: </span>{{ host.birth | date:'dd.MM.yyyy.'}}</div>
+          </div>
+        </div>
+
       </div>
 
       <div class="score" *ngIf="space.rating !== null"><span>★</span>{{ space.rating }}</div>
