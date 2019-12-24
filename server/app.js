@@ -43,7 +43,7 @@ app.get('/space/:spaceId', (req, res) => {
         where 	s.id = ?`;
     db.get(selectSpaceQuery, [req.params.spaceId], (err, row) => {
         if (row) {
-            res.send(({ ...row, amenities: JSON.parse(row.amenities), photos: JSON.parse(row.photos) }));
+            res.send(({...row, amenities: JSON.parse(row.amenities), photos: JSON.parse(row.photos)}));
         } else {
             res.status(404).send();
         }
@@ -124,19 +124,23 @@ app.get('/space', (req, res) => {
 });
 
 app.post('/reserve', (req, res) => {
-
-    const timeStart = '2020-01-01T09:00:00Z';
-    const timeEnd = '2020-01-02T09:00:00Z';
-    const price = 20;
-    const userId = 1;
-    const spaceId = 1;
-    db.run(`INSERT INTO reservation(timestamp_start,timestamp_end, price, user_id, space_id) VALUES(?,?,?,?,?)`,
-        [timeStart, timeEnd, price, userId, spaceId], function (err) {
-            if (err) {
-                return console.log(err.message);
-            }
-            res.send(this.lastID);
-        });
+    if (req.body.dateStart && req.body.dateEnd && req.body.price && req.body.userId && req.body.spaceId) {
+        console.log('tu je');
+        const timeStart = req.body.dateStart;
+        const timeEnd = req.body.dateEnd;
+        const price = req.body.price;
+        const userId = req.body.userId;
+        const spaceId = req.body.spaceId;
+        db.run(`INSERT INTO reservation(timestamp_start,timestamp_end, price, user_id, space_id) VALUES(?,?,?,?,?)`,
+            [timeStart, timeEnd, price, userId, spaceId], function (err) {
+                if (err) {
+                    return console.log(err.message);
+                }
+                res.status(200).send();
+            });
+    } else {
+        res.status(404).send();
+    }
 });
 
 app.get('/reserve/space/:spaceId', (req, res) => {
