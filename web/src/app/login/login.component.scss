@@ -1,0 +1,15 @@
+.login {
+  i {
+    cursor: pointer;
+  }
+
+  input {
+    margin: 5px 0;
+  }
+
+  &.error {
+    input {
+      border: 1px solid #ff8383;
+    }
+  }
+}

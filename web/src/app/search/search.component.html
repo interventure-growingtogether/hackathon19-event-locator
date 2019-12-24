@@ -82,7 +82,9 @@
       <nz-option *ngFor="let city of (cities$|async)" [nzLabel]="city.name" [nzValue]="city"></nz-option>
     </nz-select>
     <button nz-button nzType="link" (click)="openFilters()">Show filters</button>
-
+    <div style="margin-left: auto;margin-right: 20px;">
+      <el-user-avatar></el-user-avatar>
+    </div>
   </div>
 
   <div class="map" *ngIf="mapCenter && mapCenter.length">
@@ -91,7 +93,9 @@
       [zoom]="[12]"
       [center]="mapCenter">
       <mgl-marker *ngFor="let space of spaces" [lngLat]="space.coords">
-        <div class="marker" [ngClass]="{'active': space.id === activeSpace?.id}" *ngIf="space.id !== selectedSpace?.id" (click)="selectSpace(space)" >{{space.price}}&euro;</div>
+        <div class="marker" [ngClass]="{'active': space.id === activeSpace?.id}" *ngIf="space.id !== selectedSpace?.id"
+             (click)="selectSpace(space)">{{space.price}}&euro;
+        </div>
       </mgl-marker>
 
       <mgl-marker *ngFor="let space of spaces" [lngLat]="space.coords">

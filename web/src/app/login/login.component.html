@@ -1,0 +1,19 @@
+<div class="login" [ngClass]="{'error': hasError}">
+  <nz-input-group [nzPrefix]="prefixTemplateUser">
+    <input type="text" nz-input placeholder="username" [nzSize]="'large'" required [(ngModel)]="username"/>
+  </nz-input-group>
+  <nz-input-group [nzSuffix]="suffixTemplate">
+    <ng-template #prefixTemplateUser><i nz-icon nzType="user"></i></ng-template>
+    <input
+      [type]="passwordVisible ? 'text' : 'password'"
+      nz-input required
+      placeholder="password" [nzSize]="'large'"
+      [(ngModel)]="password"
+    />
+  </nz-input-group>
+  <ng-template #suffixTemplate>
+    <i nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'" (click)="passwordVisible = !passwordVisible"></i>
+  </ng-template>
+
+  <nz-alert *ngIf="hasError" nzType="error" nzMessage="Wrong username or password" nzShowIcon></nz-alert>
+</div>

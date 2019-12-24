@@ -13,6 +13,9 @@ import en from '@angular/common/locales/en';
 import {SearchComponent} from "./search/search.component";
 import {AppService} from "./app.service";
 import {ReservationComponent} from "./reservation/reservation.component";
+import {LoginComponent} from "./login/login.component";
+import {AuthService} from "./auth.service";
+import {UserAvatarComponent} from "./user-avatar/user-avatar.component";
 
 registerLocaleData(en);
 
@@ -20,7 +23,9 @@ registerLocaleData(en);
   declarations: [
     AppComponent,
     SearchComponent,
-    ReservationComponent
+    ReservationComponent,
+    LoginComponent,
+    UserAvatarComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +38,8 @@ registerLocaleData(en);
       accessToken: 'pk.eyJ1IjoiaXYtaGFrYXRvbiIsImEiOiJjazRpYXN5a3UxZTk0M29xcXp3aTE0OWpvIn0.BKeJvy3-DYLtPs1dqYW3OQ',
     })
   ],
-  providers: [{provide: NZ_I18N, useValue: en_US}, AppService],
+  entryComponents: [LoginComponent],
+  providers: [{provide: NZ_I18N, useValue: en_US}, AppService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
