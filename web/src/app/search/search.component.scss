@@ -87,6 +87,7 @@
     }
 
     .preview {
+      z-index: 9999;
       position: absolute;
       width: 400px;
       transform: translateY(-50%) translateX(-50%);

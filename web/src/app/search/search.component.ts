@@ -39,6 +39,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   search() {
+    if (!this.selectedCity) return;
     this.appService.getSpaces({city_id: this.selectedCity.id, ...this.filters}).subscribe((res) => {
       this.spaces = res.map(r => ({...r, coords: r.coords.split(',').map(l => parseFloat(l)).reverse()}));
       this.mapCenter = this.selectedCity.coords.split(',').map(l => parseFloat(l)).reverse();
